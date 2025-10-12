@@ -1,4 +1,5 @@
-import {resgisterUser} from '../Service/userService'
+
+const { resgisterUser } = require('../Service/userService.js');
 
 async  function createUser(req,res) {
     try {

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const bcrypt = require('bcrypt')
 const userSchema = new mongoose.Schema({
     firstName: {
         type:String,
@@ -42,7 +42,19 @@ const userSchema = new mongoose.Schema({
     
 },{ timestamps:true });
 
-use
+userSchema.pre('save',async function () {
+    // here we can modify your before it is saved  in mongo db
+    console.log("Executing pre save hook");
+    console.log(this);
+    const hashedPassword= await bcrypt.hash(this.password,10);
+    console.log(hashedPassword);
+    
+    this.password=hashedPassword;
+    console.log("Exiting pre save hook");
+    
+    
+    
+})
 
 const User = mongoose.model("User",userSchema);
 
