@@ -1,16 +1,8 @@
-const UserRepository = require("../repositories/userRepository");
-const UserService = require("../Service/userService");
+import {resgisterUser} from '../Service/userService'
 
 async  function createUser(req,res) {
-    console.log(" create user Controller Called ");
-    console.log(req.body);
-    //TODO :  Register the user
-    
-    const userService = new UserService(new UserRepository());
-    console.log(userService);
-    
     try {
-        const response = await userService.resgisterUser(req.body) ;
+        const response = await resgisterUser(req.body) ;
         return res.json({
             message:'User Successfully Created ' ,
             success : true ,
@@ -27,10 +19,6 @@ async  function createUser(req,res) {
     }
     
 }
-
-// function getUser(){
-//     console.log("Details of all the users are :- ");
-// }
 
 module.exports = {
     createUser
