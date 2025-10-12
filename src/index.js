@@ -1,23 +1,36 @@
 const express = require('express');
+const cookieparser = require('cookie-parser');
 const ServerConfig = require('./config/serverConfig');
 //const bodyParser = require('body-parser'); // not yet deprecated
 const connectDB = require('./config/dbConfig');
 const User = require('./Schema/userSchema');
 const userRouter = require('./routes/userRoute');
 const cartRouter = require('./routes/cartRoute');
+const authRouter = require('./routes/authRoutes');
+const { isLoggedIn } = require('./Validation/authValidator');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded());
+app.use(cookieparser());
 // Routing middleWare 
 // if your request routs starts wwith /users -> then handle it using userRouter    
-app.use('/users',userRouter); // this line connects the router to the server 
-//app.use('/carts',cartRouter); // this line connects the router to the server 
 
-app.post('/ping', (req, res) => {
+app.use('/users',userRouter); // this line connects the router to the server 
+app.use('/auth',authRouter)
+
+
+/*
+app.use('/carts',cartRouter); // this line connects the router to the server 
+*/
+
+
+app.get('/ping',isLoggedIn, (req, res) => {
+    //controller
     console.log(req.body);
+    console.log(req.cookies);
     return res.json({ message: 'setup checking' });
 })
 

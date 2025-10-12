@@ -6,7 +6,7 @@ const { login } = require('../Controller/authController');
 // routers are used for segregating your routes to different module
 const authRouter =  express.Router();
 
-authRouter.post('/',login) ; // this is a route registration
+authRouter.post('/login',login) ; // this is a route registration
 //userRouter.get('/',getUser) ; // this is a route to show all users
 
 

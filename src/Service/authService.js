@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const {JWT_SECRET,JWT_EXPIRY} = require('../config/serverConfig')
 
-async function login(authDetails){
+async function loginUser(authDetails){
     const email = authDetails.email;
     const plainPassword = authDetails.password;
 
@@ -34,5 +34,5 @@ async function login(authDetails){
 }
 
 module.exports={
-    login
+    loginUser
 }
