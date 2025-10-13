@@ -1,3 +1,4 @@
+require('dotenv').config(); 
 const express = require('express');
 const cookieparser = require('cookie-parser');
 const ServerConfig = require('./config/serverConfig');
@@ -8,6 +9,13 @@ const userRouter = require('./routes/userRoute');
 const cartRouter = require('./routes/cartRoute');
 const authRouter = require('./routes/authRoutes');
 const { isLoggedIn } = require('./Validation/authValidator');
+const uploader = require('./middlewares/multerMiddleware');
+const cloudinary = require('./config/cloudinaryConfig');
+const fs = require('fs/promises')
+
+
+
+
 
 const app = express();
 
@@ -33,6 +41,17 @@ app.get('/ping',isLoggedIn, (req, res) => {
     console.log(req.cookies);
     return res.json({ message: 'setup checking' });
 })
+
+app.post('/photo', uploader.single('Incomingfile'), async(req, res) => {
+    console.log(req.file);
+    const result = await cloudinary.uploader.upload(req.file.path)
+    console.log("Result From Cloudinary",result); 
+    await fs.unlink(req.file.path);
+    return res.json({
+        message: 'File uploaded successfully',
+        file: req.file
+    });
+});
 
 app.listen(ServerConfig.PORT, async () => {
     await connectDB();
