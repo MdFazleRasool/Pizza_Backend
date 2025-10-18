@@ -34,6 +34,23 @@ async function createProduct(productDetails) {
 }
 
 
+async function getProductById(productId){
+    const response = await productRepository.getProductById(productId)
+    if(!response){
+        throw { reason :'Not able to find the product' ,statusCode : 404}
+    }
+    return response;
+}
+async function deleteProductById(productId){
+    const response = await productRepository.deleteProductById(productId)
+    if(!response){
+        throw { reason :'cannot delete the Product  the product' ,statusCode : 500}
+    }
+    return response;
+}
+
 module.exports={
-    createProduct
+    createProduct,
+    getProductById,
+    deleteProductById
 }

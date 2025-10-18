@@ -10,6 +10,28 @@ async function createProduct(productDetails) {
     }
 }
 
+async function getProductById(productId) {
+    try {
+        const prod = await product.findById(productId);
+        return prod;
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+async function deleteProductById(productId) {
+    try {
+        const prod = await product.findByIdAndDelete(productId);
+        return true;
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 module.exports ={
-    createProduct
+    createProduct,
+    getProductById,
+    deleteProductById
 }
