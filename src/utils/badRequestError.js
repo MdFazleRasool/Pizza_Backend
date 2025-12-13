@@ -3,9 +3,12 @@ const AppError = require("./appError");
 class BadRequestError extends AppError{
     constructor(invalidParam){
         // invalidParam: [] -> Array of params aayega
-        let message = "";
-        invalidParam.forEach(params => invalidParam += `${params} \n `);
-        super(`The request has the foloowing invalid parameters`,400)
+        const message = invalidParam
+            .map((msg, index) => `${index + 1}. ${msg}`)
+            .join("\n");
+
+        super(`The request has the following invalid parameters:\n${message}`,
+            400 );
     }
 }
 

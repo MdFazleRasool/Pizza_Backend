@@ -1,5 +1,6 @@
 const product = require('../Schema/productSchema')
-const { createProduct } = require('../Service/productService')
+const { createProduct, deleteProductById, getProductById } = require('../Service/productService');
+const AppError = require('../utils/appError');
 
 async function addProduct(req, res) {
     /* 
@@ -12,7 +13,7 @@ async function addProduct(req, res) {
         file: req.file
     });
     */  
-    console.log("product Controller Layer", req.file); // will be undefined if no file is uploaded
+    console.log("product Controller Layer \n", req.file); // will be undefined if no file is uploaded
 
 
     try {
@@ -35,10 +36,18 @@ async function addProduct(req, res) {
     }
 
     catch (error) {
-        console.log("Controller Layer", error);
+        if (error instanceof AppError) {
+            return res.status(error.statusCode).json({
+                success: false,
+                message: error.message,
+                data: {},
+                error: error
+            })
+        }
+        console.log("Controller Layer \n", error);
         return res.status(error.statusCode).json({
             success: false,
-            message: error.reason,
+            message: 'Something went wrong Controller layer',
             data: {},
             error: error
         })
@@ -46,6 +55,64 @@ async function addProduct(req, res) {
 
 }
 
+async function getProduct(req, res) {
+    try {
+        const response  = await getProductById(req.params.id);
+        return res.status(200).json({
+            success: true,
+            message: 'Successfully fetched the product',
+            data: response,
+            error: {},
+        });
+    } catch (error) {
+        if (error instanceof AppError) {
+            return res.status(error.statusCode).json({
+                success: false,
+                message: error.message,
+                data: {},
+                error: error
+            })
+        }
+        console.log("Controller Layer \n", error);
+        return res.status(error.statusCode).json({
+            success: false,
+            message: 'Something went wrong Controller layer',
+            data: {},
+            error: error
+        })
+    }
+}
+
+async function deleteProduct(req, res) {
+    try {
+        const response  = await deleteProductById(req.params.id);
+        return res.status(200).json({
+            success: true,
+            message: 'Successfully deleted the product',
+            data: response,
+            error: {},
+        });
+    } catch (error) {
+        if (error instanceof AppError) {
+            return res.status(error.statusCode).json({
+                success: false,
+                message: error.message,
+                data: {},
+                error: error
+            })
+        }
+        console.log("Controller Layer \n", error);
+        return res.status(error.statusCode).json({
+            success: false,
+            message: 'Something went wrong Controller layer',
+            data: {},
+            error: error
+        })
+    }
+}
+
 module.exports = {
-    addProduct
+    addProduct,
+    getProduct,
+    deleteProduct
 }

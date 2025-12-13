@@ -1,6 +1,8 @@
 const cloudinary = require('../config/cloudinaryConfig');
 const productRepository = require('../repositories/productRepository');
 const fs = require('fs/promises');
+const InterServerError = require('../utils/interServerError');
+const NotFoundError = require('../utils/notFoundError');
 
 
 async function createProduct(productDetails) {
@@ -17,7 +19,8 @@ async function createProduct(productDetails) {
 
         } catch (error) {
             console.log("Service Layer",error);
-            throw{reason : 'Not able to create Product Service Layer :-(line no :- 20)' , statusCode:500}
+            throw new InterServerError();
+            //throw{reason : 'Not able to create Product Service Layer :-(line no :- 20)' , statusCode:500}
             //throw error;
             
         }
@@ -28,10 +31,12 @@ async function createProduct(productDetails) {
         ...productDetails,
         productImage:productImage
     }) ;
-
+    /* for better Error Handling(E.H) this was removed 
+        this function is called by product Controller check there for E.H
     if(!product){
         throw{reason : 'Not able to create Product Service Layer' , statusCode:500}
     }
+    */ 
     return product;
 }
 
@@ -39,7 +44,9 @@ async function createProduct(productDetails) {
 async function getProductById(productId){
     const response = await productRepository.getProductById(productId)
     if(!response){
-        throw { reason :'Not able to find the product' ,statusCode : 404}
+        console.log("Product Service layer get Product by id func");
+        throw new NotFoundError('Not able to find the product');
+        //throw { reason :'Not able to find the product' ,statusCode : 404}
     }
     return response;
 }
@@ -48,7 +55,10 @@ async function getProductById(productId){
 async function deleteProductById(productId){
     const response = await productRepository.deleteProductById(productId)
     if(!response){
-        throw { reason :'cannot delete the Product  the product' ,statusCode : 500}
+        console.log("Product Service layer delete product by id func");
+        throw new NotFoundError('Not able to find the product');
+        
+        //throw { reason :'cannot delete the Product  the product' ,statusCode : 500}
     }
     return response;
 }
