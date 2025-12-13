@@ -10,6 +10,6 @@ const storageConfiguration=multer.diskStorage({
         console.log(file.originalname);
         next(null,`${Date.now()}${path.extname(file.originalname)}`)
     }
-})
+})  
 const uploader = multer({storage:storageConfiguration}); 
 module.exports = uploader;

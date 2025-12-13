@@ -2,14 +2,16 @@ const product = require('../Schema/productSchema')
 const { createProduct } = require('../Service/productService')
 
 async function addProduct(req, res) {
-    // console.log(req.file);
-    // const result = await cloudinary.uploader.upload(req.file.path)
-    // console.log("Result From Cloudinary",result); 
-    // await fs.unlink(req.file.path);
-    // return res.json({
-    //     message: 'File uploaded successfully',
-    //     file: req.file
-    // });
+    /* 
+    console.log(req.file);
+    const result = await cloudinary.uploader.upload(req.file.path)
+    console.log("Result From Cloudinary",result); 
+    await fs.unlink(req.file.path);
+    return res.json({
+        message: 'File uploaded successfully',
+        file: req.file
+    });
+    */  
     console.log("product Controller Layer", req.file); // will be undefined if no file is uploaded
 
 

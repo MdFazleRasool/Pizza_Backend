@@ -44,6 +44,21 @@ app.get('/ping',isLoggedIn, (req, res) => {
     return res.json({ message: 'setup checking' });
 })
 
+// simpler seup at begining to check it is working fine 
+/* 
+app.post('/photo', uploader.single('Incomingfile'), async(req, res) => {
+    console.log(req.file);
+    const result = await cloudinary.uploader.upload(req.file.path)
+    console.log("Result From Cloudinary",result); 
+    await fs.unlink(req.file.path);
+    return res.json({
+        message: 'File uploaded successfully',
+        file: req.file
+    });
+});
+*/ 
+
+
 /* before mvc architecture just created  to check the flow , and working or not (now check controller for more )
 app.post('/photo', uploader.single('Incomingfile'), async(req, res) => {
     console.log(req.file);

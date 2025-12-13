@@ -17,11 +17,13 @@ async function createProduct(productDetails) {
 
         } catch (error) {
             console.log("Service Layer",error);
-            throw error;
+            throw{reason : 'Not able to create Product Service Layer :-(line no :- 20)' , statusCode:500}
+            //throw error;
+            
         }
 
     }
-    /*  Then we use the uel from the cloudinary and other products to add products in db    */    
+    /* 2. Then we use the uel from the cloudinary and other products to add products in db    */    
     const  product = await productRepository.createProduct({
         ...productDetails,
         productImage:productImage
@@ -41,6 +43,8 @@ async function getProductById(productId){
     }
     return response;
 }
+
+
 async function deleteProductById(productId){
     const response = await productRepository.deleteProductById(productId)
     if(!response){
