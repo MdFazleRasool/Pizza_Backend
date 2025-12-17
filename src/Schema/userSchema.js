@@ -39,8 +39,18 @@ const userSchema = new mongoose.Schema({
         trim:true,
         required:[true, "Password must not be empty"] ,
     },
+    role : {
+        type : String ,
+        enum : ["USER" , "ADMIN"] ,
+        default : "USER"
+    }
     
 },{ timestamps:true });
+
+/*  By Introducing role , I want to 
+    to give authorisation to either admin user or both and their functionality will be according to it
+
+*/ 
 
 userSchema.pre('save',async function () {
     // here we can modify your before it is saved  in mongo db
