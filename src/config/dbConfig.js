@@ -13,8 +13,6 @@ async function connectDB() {
     } catch (error) {
         console.log("Not Able to connect with the  mongoDB server");
         console.log(error);
-        
-        
     }
 }
 

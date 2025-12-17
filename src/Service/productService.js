@@ -16,6 +16,11 @@ async function createProduct(productDetails) {
             const cloudinaryResponse = await cloudinary.uploader.upload(imagePath);
             var productImage = cloudinaryResponse.secure_url;
             await fs.unlink(imagePath);
+            
+
+            /* more ways to unlink image from the folder (upload)
+                await fs.unlink(process.cwd() + "/" + imagePath);
+            */ 
 
         } catch (error) {
             console.log("Service Layer",error);
