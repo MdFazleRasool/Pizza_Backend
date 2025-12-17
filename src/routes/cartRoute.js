@@ -1,8 +1,9 @@
 const express = require('express');
-const { getCartById } = require('../Controller/cartController');
+const {  getCartByUser } = require('../Controller/cartController');
+const { isLoggedIn } = require('../Validation/authValidator');
 
 const cartRouter = express.Router();
 
-cartRouter.get('/:id',getCartById);
+cartRouter.get('/',isLoggedIn,getCartByUser);
 
 module.exports = cartRouter;

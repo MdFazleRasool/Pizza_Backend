@@ -1,7 +1,7 @@
 const cloudinary = require('../config/cloudinaryConfig');
 const productRepository = require('../repositories/productRepository');
 const fs = require('fs/promises');
-const InterServerError = require('../utils/interServerError');
+const InternalServerError = require('../utils/InternalServerError');
 const NotFoundError = require('../utils/notFoundError');
 
 
@@ -24,7 +24,7 @@ async function createProduct(productDetails) {
 
         } catch (error) {
             console.log("Service Layer",error);
-            throw new InterServerError();
+            throw new InternalServerError();
             //throw{reason : 'Not able to create Product Service Layer :-(line no :- 20)' , statusCode:500}
             //throw error;
             

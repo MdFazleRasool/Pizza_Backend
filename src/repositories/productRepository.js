@@ -1,5 +1,5 @@
 const product = require('../Schema/productSchema');
-const InterServerError = require('../utils/interServerError');
+const InternalServerError = require('../utils/InternalServerError');
 const BadRequestError = require('../utils/badRequestError');
 
 
@@ -18,7 +18,7 @@ async function createProduct(productDetails) {
             throw new BadRequestError(errorMessageList);
         }
         console.log(error);
-        throw new InterServerError();
+        throw new InternalServerError();
 
         /*
         console.log(error.name);
@@ -40,7 +40,7 @@ async function getProductById(productId) {
         return response;
     } catch (error) {
         console.log(error);
-        throw new InterServerError();
+        throw new InternalServerError();
 
     }
 }
@@ -51,7 +51,7 @@ async function deleteProductById(productId) {
         return response;
     } catch (error) {
         console.log(error);
-        throw new InterServerError();
+        throw new InternalServerError();
     }
 }
 

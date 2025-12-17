@@ -29,7 +29,10 @@ app.use(cookieparser());
 
 app.use('/users',userRouter); // this line connects the router to the server 
 app.use('/auth',authRouter);
-app.use('/products',productRouter)
+app.use('/products',productRouter) ;
+app.use('/carts',cartRouter) ;
+
+
 
 
 /*
