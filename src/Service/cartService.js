@@ -5,45 +5,65 @@ const BadRequestError = require("../utils/badRequestError");
 const NotFoundError = require("../utils/notFoundError");
 
 async function getCart(userId) {
-    const cart  = await getCartByUserId(userId);
-    if(!cart){
+    const cart = await getCartByUserId(userId);
+    if (!cart) {
         throw new NotFoundError(cart);
     }
     return cart;
 }
 
-async function addToCart(userId , productId) {
-    const cart  = await getCart(userId);
+async function modifyCart(userId, productId, shouldAdd = true) {
+    const quantityValue = (shouldAdd == true) ? 1 : -1
+    const cart = await getCart(userId);
     const product = await getProductById(productId);
-    if(!product){
+    if (!product) {
         throw new NotFoundError(product);
     }
 
-    if(!product.inStock && product.quantity <= 0){
+    if (!product.inStock && product.quantity <= 0) {
         throw new BadRequestError("Product Not available in Stock ");
     }
 
     // may be product is already in the cart
-    let foundProduct = false ;
-    cart.items.forEach(item =>{
+    let foundProduct = false;
+    cart.items.forEach(item => {
         // manual choersion 
         console.log(item);
-        
-        if(item.product._id.toString() === productId)  {
-            if (product.quantity >= item.quantity +1) {
-                item.quantity+=1;
-            } else {
-                throw new AppError("The quantity of the item requested is not available decrease quantity ",404) ;
+
+        if (item.product._id.toString() === productId) {
+            if (shouldAdd) {
+                if (product.quantity >= item.quantity + 1) {
+                    item.quantity += quantityValue;
+                } else {
+                    throw new AppError("The quantity of the item requested is not available decrease quantity ", 404);
+                }
             }
-            
+            else {
+                if (item.quantity > 0) {
+                    item.quantity += quantityValue;
+                    if (item.quantity == 0) {
+                        cart.items = cart.items.filter(item => item.product._id != productId)
+                        foundProduct = true;
+                        return;
+                    }
+                }
+                else {
+                    throw new AppError("The quantity of the item requested is not available  ", 404);
+                }
+            }
             foundProduct = true;
         }
     })
-    if(!foundProduct){
-        cart.items.push ({
-            product : productId ,
-            quantity : 1
-        })
+    if (!foundProduct) {
+        if (shouldAdd) {
+            cart.items.push({
+                product: productId,
+                quantity: 1
+            })
+        }
+        else {
+            throw new NotFoundError("product in the cart");
+        }
     }
 
     // for these type of funct do google search 
@@ -53,14 +73,14 @@ async function addToCart(userId , productId) {
         jab order place ho jaye uske baad qty decrease hon achhye
         product.quantity -=1 ; 
         await product.save() ;
-    */ 
-    
+    */
 
-    return cart ;
+
+    return cart;
 
 }
 
 module.exports = {
-    getCart ,
-    addToCart
+    getCart,
+    modifyCart
 }
