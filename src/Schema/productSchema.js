@@ -7,6 +7,11 @@ const productSchema = new mongoose.Schema({
         minLength:[3,"Product Name Must be Atleast 3 Characters"] ,
         trim :true
     },
+    quantity : {
+        type : Number ,
+        required : true  ,
+        default : 10
+    } ,
     description:{
         type:String,
         required:[true,"Product Must Be Defined"],
