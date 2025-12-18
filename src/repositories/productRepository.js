@@ -1,5 +1,5 @@
 const product = require('../Schema/productSchema');
-const InternalServerError = require('../utils/InternalServerError');
+const InternalServerError = require('../utils/internalServerError');
 const BadRequestError = require('../utils/badRequestError');
 
 

@@ -1,7 +1,7 @@
 const cloudinary = require('../config/cloudinaryConfig');
 const productRepository = require('../repositories/productRepository');
 const fs = require('fs/promises');
-const InternalServerError = require('../utils/InternalServerError');
+const InternalServerError = require('../utils/internalServerError');
 const NotFoundError = require('../utils/notFoundError');
 
 
