@@ -40,7 +40,7 @@ app.use('/carts',cartRouter); // this line connects the router to the server
 */
 
 
-app.get('/ping',isLoggedIn, (req, res) => {
+app.get('/ping', (req, res) => {
     //controller
     console.log(req.body);
     console.log(req.cookies);
